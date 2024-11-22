@@ -10,7 +10,6 @@ a tradeing simulator where you go from planet to planet and buy and sell goods
 - [ ] fuel size depending on ship
 - [ ] 3d visuals 
 - [ ] lots of difrent cargos to run inculding low cost high volume and high cost volume
-- [ ] 
 
 ## wants
 - [ ] illegal cargo
@@ -18,6 +17,5 @@ a tradeing simulator where you go from planet to planet and buy and sell goods
 - [ ] traval visuals
 - [ ] showing the ship orbiting the planet
 - [ ] hire crew for buffs
-- [ ] use crew as commodity
-- [ ] use crew as fuel if you dont have enuff fuel
-
+- [ ] use crew as commodity sell to pirates
+- [ ] map
