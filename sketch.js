@@ -67,23 +67,31 @@ function setup() {
 function draw() {
   background(220);
   circle(mouseX, mouseY, 100);
+  makeCargoList(stationType.scrapYard);
 }
 
 function makeCargoList(proType){
-  let cargoArray = [[][]];
+  let cargoArray = [];
+  let tempArray = [];
   let maxCargoBuyAmount;
   let maxCargoSellAmount;
   let cargoBuyAmount;
   let cargoSellAmount;
 
-  MaxcargoBuyAmount = protype[0].length();
-  MaxcargoSellAmount = protype[1].length();
-  cargoBuyAmount = rand(2, maxCargoBuyAmount);
-  cargoSellAmount = rand(2, maxCargoSellAmount);
+  maxCargoBuyAmount = proType[0].length;
+  maxCargoSellAmount = proType[1].length;
+
+  console.log(maxCargoBuyAmount);
+  console.log(maxCargoSellAmount);
+
+  cargoBuyAmount = random(2, maxCargoBuyAmount);
+  cargoSellAmount = random(2, maxCargoSellAmount);
 
   for (cargoBuyAmount > 0; cargoBuyAmount--;){
-    cargoArray[0].push(proType[0][rand(maxCargoBuyAmount)]);
+    tempArray.push(proType[0][random(maxCargoBuyAmount)]);
   }
+  cargoArray.push(tempArray);
+  tempArray = [];
   
 };
 
