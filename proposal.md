@@ -18,5 +18,4 @@ a tradeing simulator where you go from planet to planet and buy and sell goods
 - [ ] traval visuals
 - [ ] showing the ship orbiting the planet
 - [ ] hire crew for buffs
-- [ ] use crew as commodity sell to pirates
 - [ ] map
