@@ -62,12 +62,12 @@ class CreateStation {
 };
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  makeCargoList(stationType.scrapYard);
 }
 
 function draw() {
   background(220);
   circle(mouseX, mouseY, 100);
-  makeCargoList(stationType.scrapYard);
 }
 
 function makeCargoList(proType){
@@ -87,11 +87,18 @@ function makeCargoList(proType){
   cargoBuyAmount = random(2, maxCargoBuyAmount);
   cargoSellAmount = random(2, maxCargoSellAmount);
 
-  for (cargoBuyAmount > 0; cargoBuyAmount--;){
+  for (cargoBuyAmount; cargoBuyAmount > 0; cargoBuyAmount--){
     tempArray.push(proType[0][random(maxCargoBuyAmount)]);
   }
   cargoArray.push(tempArray);
+  console.log(cargoArray);
   tempArray = [];
   
+  for (cargoSellAmount; cargoSellAmount > 0; cargoSellAmount--){
+    tempArray.push(proType[0][random(maxCargoSellAmount)]);
+  }
+  cargoArray.push(tempArray);
+  console.log(cargoArray);
+  tempArray = [];
 };
 
