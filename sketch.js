@@ -62,7 +62,10 @@ class CreateStation {
 };
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  makeCargoList(stationType.scrapYard);
+  console.log(makeCargoList(stationType.scrapYard));
+  console.log(makeCargoList(stationType.eggriculture));
+  console.log(makeCargoList(stationType.manufacturingHub));
+  console.log(makeCargoList(stationType.scienceLab));
 }
 
 function draw() {
@@ -78,27 +81,25 @@ function makeCargoList(proType){
   let cargoBuyAmount;
   let cargoSellAmount;
 
-  maxCargoBuyAmount = proType[0].length;
-  maxCargoSellAmount = proType[1].length;
+  maxCargoBuyAmount = proType[0].length-1;
+  maxCargoSellAmount = proType[1].length-1;
 
-  console.log(maxCargoBuyAmount);
-  console.log(maxCargoSellAmount);
-
-  cargoBuyAmount = random(2, maxCargoBuyAmount);
-  cargoSellAmount = random(2, maxCargoSellAmount);
+  //fix always 2 issue
+  cargoBuyAmount = Math.round(random(2, maxCargoBuyAmount));
+  cargoSellAmount = Math.round(random(2, maxCargoSellAmount));
 
   for (cargoBuyAmount; cargoBuyAmount > 0; cargoBuyAmount--){
-    tempArray.push(proType[0][random(maxCargoBuyAmount)]);
+    tempArray.push(proType[0][Math.round(random(maxCargoBuyAmount))]);
   }
   cargoArray.push(tempArray);
-  console.log(cargoArray);
   tempArray = [];
   
   for (cargoSellAmount; cargoSellAmount > 0; cargoSellAmount--){
-    tempArray.push(proType[0][random(maxCargoSellAmount)]);
+    tempArray.push(proType[1][Math.round(random(maxCargoSellAmount))]);
   }
   cargoArray.push(tempArray);
-  console.log(cargoArray);
   tempArray = [];
+
+  return cargoArray;
 };
 

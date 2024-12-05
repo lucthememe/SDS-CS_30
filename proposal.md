@@ -1,6 +1,6 @@
 # cs-30 major project proposal
 
-a tradeing simulator where you go from planet to planet and buy and sell goods
+a trading simulator where you go from planet to planet and buy and sell goods
 
 ## needs
 - [ ] set planets to go to
@@ -9,11 +9,15 @@ a tradeing simulator where you go from planet to planet and buy and sell goods
 - [ ] upgradeing ships / upgrades to storage size
 - [ ] cost of traval 
 - [ ] fuel size depending on ship
-- [ ] 3d visuals 
 - [ ] lots of difrent cargos to run inculding low cost high volume and high cost low volume
+
+## ambeance
+- [ ] title screen
+- [ ] music 
 
 ## wants
 - [ ] illegal cargo
+- [ ] 3d visuals 
 - [ ] outlaw outposts
 - [ ] traval visuals
 - [ ] showing the ship orbiting the planet
