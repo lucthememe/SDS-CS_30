@@ -17,6 +17,9 @@ let player = {
   distilledSpirits: 0,
 };
 
+galaxyXMax = 1000;
+galaxyYMax = 1000;
+
 const cargo = {
   iron: "iron",
   copper: "copper",
@@ -31,6 +34,7 @@ const cargo = {
   agriculturalSupplies: "agriculturalSupplies",
   compboard: "compboard",
   waste: "waste"
+
 };
 
 const stationType ={
@@ -59,6 +63,8 @@ class CreateStation {
   CreateCargoList(){
     makeCargoList(this.productionType);
   }
+
+
 };
 function setup() {
   createCanvas(windowWidth, windowHeight);
