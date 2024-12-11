@@ -33,8 +33,12 @@ const cargo = {
   distilledSpirits: "distilledSpirits",
   agriculturalSupplies: "agriculturalSupplies",
   compboard: "compboard",
-  waste: "waste"
+  waste: "waste",
+};
 
+const stationNameComponents ={
+  prefix: ["Big", "Small", "Long", "Short", "Wide", "Narrow", "Handsome", "Bald", "Anxious", "Agreeable", "Brave", "Defiant", "Distinct", "Calm", "Charming", "Blushing", "colorful"],
+  sufix: ["forest", "art", "rock", "tree", "yard", "tundra", "garden", "desert", "range", "field", "cane", "cube", "murder", "cave", "moose", "beaver", "nerd"],
 };
 
 const stationType ={
@@ -44,7 +48,6 @@ const stationType ={
   scienceLab: [[cargo.water, cargo.processedFood, cargo.compboard], [cargo.waste, cargo.quantainium, cargo.agriculturalSupplies]],
   eggriculture: [[cargo.waste, cargo.constructionMaterials, cargo.agriculturalSupplies], [cargo.water, cargo.processedFood, cargo.distilledSpirits, cargo.waste]],
   manufacturingHub: [[cargo.iron, cargo.copper, cargo.aluminum], [cargo.compboard, cargo.waste]],
-
 };
 
 let genratedstations = [];
@@ -64,14 +67,21 @@ class CreateStation {
     makeCargoList(this.productionType);
   }
 
+  CreateStationName(){
+    this.name = stationNameComponents.prefix[Math.round(random(stationNameComponents.prefix.length-1))] + " " + stationNameComponents.sufix[Math.round(random(stationNameComponents.sufix.length-1))];
+  }
 
+  CreateStationCoordinates(){
+    this.x = math.round(random(galaxyXMax));
+    this.y = math.round(random(galaxyYMax));
+  }
 };
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  console.log(makeCargoList(stationType.scrapYard));
-  console.log(makeCargoList(stationType.eggriculture));
-  console.log(makeCargoList(stationType.manufacturingHub));
-  console.log(makeCargoList(stationType.scienceLab));
+  for (let i = 0; i < 10; i++){
+    genratedstations.push(new CreateStation("", 0, 0, true, stationType.manufacturingHub));
+  }
+  console.log(genratedstations);
 }
 
 function draw() {
