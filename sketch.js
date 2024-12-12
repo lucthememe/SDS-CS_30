@@ -68,18 +68,56 @@ class CreateStation {
   }
 
   CreateStationName(){
-    this.name = stationNameComponents.prefix[Math.round(random(stationNameComponents.prefix.length-1))] + " " + stationNameComponents.sufix[Math.round(random(stationNameComponents.sufix.length-1))];
+    let nameHolder;
+    let newName = false;
+    while (newName === false){
+      nameHolder = stationNameComponents.prefix[Math.round(random(stationNameComponents.prefix.length-1))] + " " + stationNameComponents.sufix[Math.round(random(stationNameComponents.sufix.length-1))] + " station";
+      newName = true;
+      for (let i = 0; i < genratedstations.length; i++){
+        if (nameHolder === genratedstations[i].name){
+          newName = false;
+        }
+      }
+    }
+    this.name = nameHolder;
   }
 
   CreateStationCoordinates(){
-    this.x = math.round(random(galaxyXMax));
-    this.y = math.round(random(galaxyYMax));
+    let newCoordinates = false;
+    let coordinateXHolder;
+    let coordinateYHolder;
+    while (newCoordinates === false){
+      coordinateYHolder = Math.round(random(galaxyXMax));
+      coordinateXHolder = Math.round(random(galaxyYMax));
+      newCoordinates = true;
+      for (let i = 0; i < genratedstations.length; i++){
+        if (coordinateXHolder === genratedstations[i].x){
+          newCoordinates = false;
+        }
+      }
+      //fix coord check for same x y
+      for (let i = 0; i < genratedstations.length; i++){
+        if (coordinateYHolder === genratedstations[i].y){
+          newCoordinates = false;
+        }
+      }
+    }
+    this.x = coordinateXHolder;
+    this.y = coordinateYHolder;
   }
 };
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  genratedstations.push(new CreateStation("Test station", 500, 500, true, stationType.smelter));
+  let n = genratedstations.length;
   for (let i = 0; i < 10; i++){
-    genratedstations.push(new CreateStation("", 0, 0, true, stationType.manufacturingHub));
+    genratedstations.push(new CreateStation("", 0, 0, false, stationType.manufacturingHub));
+    if (genratedstations[i+n].preset === false){
+      genratedstations[i+n].CreateStationName();
+      genratedstations[i+n].CreateCargoList();
+      genratedstations[i+n].CreateStationCoordinates();
+    }
+
   }
   console.log(genratedstations);
 }
