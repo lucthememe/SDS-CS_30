@@ -38,7 +38,7 @@ const cargo = {
 
 const stationNameComponents ={
   prefix: ["Big", "Small", "Long", "Short", "Wide", "Narrow", "Handsome", "Bald", "Anxious", "Agreeable", "Brave", "Defiant", "Distinct", "Calm", "Charming", "Blushing", "colorful"],
-  sufix: ["forest", "art", "rock", "tree", "yard", "tundra", "garden", "desert", "range", "field", "cane", "cube", "murder", "cave", "moose", "beaver", "nerd"],
+  sufix: ["forest", "art", "rock", "tree", "yard", "tundra", "garden", "desert", "range", "field", "cane", "cube", "murder", "cave", "moose", "beaver", "nerd", "dream", "express", "glade"],
 };
 
 const stationType ={
@@ -60,11 +60,18 @@ class CreateStation {
     this.y = y;
     this.preset = preset;
     this.productionType = productionType;
+    this.cargo = productionType;
 
   }
 
+  GenrateRandomStation(){
+    this.CreateCargoList();
+    this.CreateStationCoordinates();
+    this.CreateStationName();
+  }
+
   CreateCargoList(){
-    makeCargoList(this.productionType);
+    this.cargo = makeCargoList(this.cargo);
   }
 
   CreateStationName(){
@@ -91,13 +98,7 @@ class CreateStation {
       coordinateXHolder = Math.round(random(galaxyYMax));
       newCoordinates = true;
       for (let i = 0; i < genratedstations.length; i++){
-        if (coordinateXHolder === genratedstations[i].x){
-          newCoordinates = false;
-        }
-      }
-      //fix coord check for same x y
-      for (let i = 0; i < genratedstations.length; i++){
-        if (coordinateYHolder === genratedstations[i].y){
+        if (coordinateXHolder === genratedstations[i].x && coordinateYHolder === genratedstations[i].y){
           newCoordinates = false;
         }
       }
@@ -109,15 +110,8 @@ class CreateStation {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   genratedstations.push(new CreateStation("Test station", 500, 500, true, stationType.smelter));
-  let n = genratedstations.length;
-  for (let i = 0; i < 10; i++){
-    genratedstations.push(new CreateStation("", 0, 0, false, stationType.manufacturingHub));
-    if (genratedstations[i+n].preset === false){
-      genratedstations[i+n].CreateStationName();
-      genratedstations[i+n].CreateCargoList();
-      genratedstations[i+n].CreateStationCoordinates();
-    }
-
+  for (let i=0;i<20;i++){
+    gernateStation();
   }
   console.log(genratedstations);
 }
@@ -138,7 +132,7 @@ function makeCargoList(proType){
   maxCargoBuyAmount = proType[0].length-1;
   maxCargoSellAmount = proType[1].length-1;
 
-  //fix always 2 issue
+
   cargoBuyAmount = Math.round(random(2, maxCargoBuyAmount));
   cargoSellAmount = Math.round(random(2, maxCargoSellAmount));
 
@@ -157,3 +151,32 @@ function makeCargoList(proType){
   return cargoArray;
 };
 
+function gernateStation(){
+  let stationNumber = genratedstations.length;
+  let stationRand = random(6);
+  let stationRandType = null;
+
+  if (stationRand <= 1){
+    stationRandType = stationType.eggriculture;
+  }
+  else if (stationRand <= 2 && stationRand < 1){
+    stationRandType = stationType.manufacturingHub;
+  }
+  else if (stationRand <= 3 && stationRand < 2){
+    stationRandType = stationType.scienceLab;
+  }
+  else if (stationRand <= 4 && stationRand < 3){
+    stationRandType = stationType.scrapYard;
+  }
+  else if (stationRand <= 5 && stationRand < 4){
+    stationRandType = stationType.shipYard;
+  }
+  else{
+    stationRandType = stationType.smelter;
+  }
+
+
+  genratedstations.push(new CreateStation("", 0, 0, false, stationRandType));
+  genratedstations[stationNumber].GenrateRandomStation();
+
+}
