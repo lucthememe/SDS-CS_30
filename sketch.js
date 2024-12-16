@@ -124,10 +124,12 @@ function draw() {
 function makeCargoList(proType){
   let cargoArray = [];
   let tempArray = [];
+  let tempCargo ;
   let maxCargoBuyAmount;
   let maxCargoSellAmount;
   let cargoBuyAmount;
   let cargoSellAmount;
+  let newCargo = false;
 
   maxCargoBuyAmount = proType[0].length-1;
   maxCargoSellAmount = proType[1].length-1;
@@ -136,14 +138,34 @@ function makeCargoList(proType){
   cargoBuyAmount = Math.round(random(2, maxCargoBuyAmount));
   cargoSellAmount = Math.round(random(2, maxCargoSellAmount));
 
+
+  //fix same cargo
   for (cargoBuyAmount; cargoBuyAmount > 0; cargoBuyAmount--){
-    tempArray.push(proType[0][Math.round(random(maxCargoBuyAmount))]);
+    tempCargo = [proType[0][Math.round(random(maxCargoBuyAmount))], 200];
+    if (tempArray.length > 0){
+      newCargo = true;
+      for (i=0; i < tempArray.length; i++){
+        if (tempCargo === tempArray[i]){
+          newCargo = false;
+          tempArray[i][1] + 200;
+          break;
+        }
+      }
+      if(newCargo === true){
+        tempArray.push(tempCargo);
+        tempCargo =[];
+      }
+    }
+    else{
+      tempArray.push(tempCargo);
+      tempCargo =[];
+    }
   }
   cargoArray.push(tempArray);
   tempArray = [];
   
   for (cargoSellAmount; cargoSellAmount > 0; cargoSellAmount--){
-    tempArray.push(proType[1][Math.round(random(maxCargoSellAmount))]);
+    tempArray.push(proType[1][Math.round(random(maxCargoSellAmount))], 200);
   }
   cargoArray.push(tempArray);
   tempArray = [];
