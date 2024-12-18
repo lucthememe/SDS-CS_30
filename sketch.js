@@ -17,8 +17,9 @@ let player = {
   distilledSpirits: 0,
 };
 
-galaxyXMax = 1000;
-galaxyYMax = 1000;
+const galaxyXMax = 1000;
+const galaxyYMax = 1000;
+const defualtCargoAmount = 200;
 
 const cargo = {
   iron: "iron",
@@ -123,13 +124,12 @@ function draw() {
 
 function makeCargoList(proType){
   let cargoArray = [];
-  let tempArray = [];
-  let tempCargo ;
+  let tempMap = new Map;
+  let tempCargo;
   let maxCargoBuyAmount;
   let maxCargoSellAmount;
   let cargoBuyAmount;
   let cargoSellAmount;
-  let newCargo = false;
 
   maxCargoBuyAmount = proType[0].length-1;
   maxCargoSellAmount = proType[1].length-1;
@@ -139,36 +139,25 @@ function makeCargoList(proType){
   cargoSellAmount = Math.round(random(2, maxCargoSellAmount));
 
 
-  //fix same cargo
+  //fix this and test this
   for (cargoBuyAmount; cargoBuyAmount > 0; cargoBuyAmount--){
-    tempCargo = [proType[0][Math.round(random(maxCargoBuyAmount))], 200];
-    if (tempArray.length > 0){
-      newCargo = true;
-      for (i=0; i < tempArray.length; i++){
-        if (tempCargo === tempArray[i]){
-          newCargo = false;
-          tempArray[i][1] + 200;
-          break;
-        }
-      }
-      if(newCargo === true){
-        tempArray.push(tempCargo);
-        tempCargo =[];
-      }
+    tempCargo.set(proType[0][Math.round(random(maxCargoBuyAmount))]);
+    if (tempMap.has(tempCargo)){
+      tempMap.set(tempCargo, tempMap.get(tempCargo)+defualtCargoAmount);
     }
     else{
-      tempArray.push(tempCargo);
-      tempCargo =[];
+      tempMap.set(tempCargo, defualtCargoAmount);
     }
   }
-  cargoArray.push(tempArray);
-  tempArray = [];
+  cargoArray.push(tempMap);
+  tempMap.clearAll;
+  //fix this
   
   for (cargoSellAmount; cargoSellAmount > 0; cargoSellAmount--){
-    tempArray.push(proType[1][Math.round(random(maxCargoSellAmount))], 200);
+    tempMap.push(proType[1][Math.round(random(maxCargoSellAmount))]);
   }
-  cargoArray.push(tempArray);
-  tempArray = [];
+  cargoArray.push(tempMap);
+  tempMap = [];
 
   return cargoArray;
 };
