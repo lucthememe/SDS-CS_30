@@ -124,6 +124,7 @@ function draw() {
 
 function makeCargoList(proType){
   let cargoArray = [];
+  let tempArray = [];
   let tempMap = new Map;
   let tempCargo;
   let maxCargoBuyAmount;
@@ -134,14 +135,11 @@ function makeCargoList(proType){
   maxCargoBuyAmount = proType[0].length-1;
   maxCargoSellAmount = proType[1].length-1;
 
-
   cargoBuyAmount = Math.round(random(2, maxCargoBuyAmount));
   cargoSellAmount = Math.round(random(2, maxCargoSellAmount));
 
-
-  //fix this and test this
   for (cargoBuyAmount; cargoBuyAmount > 0; cargoBuyAmount--){
-    tempCargo.set(proType[0][Math.round(random(maxCargoBuyAmount))]);
+    tempCargo = proType[0][Math.round(random(maxCargoBuyAmount))];
     if (tempMap.has(tempCargo)){
       tempMap.set(tempCargo, tempMap.get(tempCargo)+defualtCargoAmount);
     }
@@ -149,15 +147,30 @@ function makeCargoList(proType){
       tempMap.set(tempCargo, defualtCargoAmount);
     }
   }
-  cargoArray.push(tempMap);
-  tempMap.clearAll;
-  //fix this
-  
-  for (cargoSellAmount; cargoSellAmount > 0; cargoSellAmount--){
-    tempMap.push(proType[1][Math.round(random(maxCargoSellAmount))]);
+  for (let [key, value] of tempMap) {
+    tempArray.push([key, value]);
   }
-  cargoArray.push(tempMap);
-  tempMap = [];
+  cargoArray.push(tempArray);
+  tempArray = [];
+
+  for (let [key, value] of tempMap) {
+    tempMap.delete(key);
+  }
+
+  for (cargoSellAmount; cargoSellAmount > 0; cargoSellAmount--){
+    tempCargo = proType[1][Math.round(random(maxCargoSellAmount))];
+    if (tempMap.has(tempCargo)){
+      tempMap.set(tempCargo, tempMap.get(tempCargo)+defualtCargoAmount);
+    }
+    else{
+      tempMap.set(tempCargo, defualtCargoAmount);
+    }
+  }
+  for (let [key, value] of tempMap) {
+    tempArray.push([key, value]);
+  }
+  cargoArray.push(tempArray);
+  tempArray = [];
 
   return cargoArray;
 };
@@ -185,7 +198,6 @@ function gernateStation(){
   else{
     stationRandType = stationType.smelter;
   }
-
 
   genratedstations.push(new CreateStation("", 0, 0, false, stationRandType));
   genratedstations[stationNumber].GenrateRandomStation();
