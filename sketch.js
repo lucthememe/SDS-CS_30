@@ -116,8 +116,8 @@ function setup() {
   genratedstations.push(new CreateStation("Test station", 500, 500, true, stationType.smelter));
   for (let i=0;i<20;i++){
     gernateStation();
+    console.log(stationInfoCheck(genratedstations[i].x, genratedstations[i].y, genratedstations));
   }
-  console.log(genratedstations);
 }
 
 function draw() {
@@ -213,7 +213,7 @@ function stationInfoCheck(playerX, playerY, stationList){
   let stationCargoSell ;
   for (let i = 0; i < stationList.length; i++){
     if (playerX === stationList[i].x && playerY === stationList[i].y){
-      stationName = stationList[i].Name;
+      stationName = stationList[i].name;
       stationCargoBuy = stationList[i].cargo[0];
       stationCargoSell = stationList[i].cargo[1];
     }
