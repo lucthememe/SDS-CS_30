@@ -3,7 +3,7 @@
 // start date 26/11/2024
 
 let player = {
-  curantPlayerstation: null,
+  curantcoords: [500, 500],
   cargoHoldSize: 10,
   iron: 0,
   copper: 0,
@@ -15,6 +15,9 @@ let player = {
   constructionMaterials: 0,
   RMC: 0,
   distilledSpirits: 0,
+  agriculturalSupplies: 0,
+  compboard: 0,
+  waste: 0,
 };
 
 const galaxyXMax = 1000;
@@ -201,5 +204,20 @@ function gernateStation(){
 
   genratedstations.push(new CreateStation("", 0, 0, false, stationRandType));
   genratedstations[stationNumber].GenrateRandomStation();
+
+}
+
+function stationInfoCheck(playerX, playerY, stationList){
+  let stationName ;
+  let stationCargoBuy ;
+  let stationCargoSell ;
+  for (let i = 0; i < stationList.length; i++){
+    if (playerX === stationList[i].x && playerY === stationList[i].y){
+      stationName = stationList[i].Name;
+      stationCargoBuy = stationList[i].cargo[0];
+      stationCargoSell = stationList[i].cargo[1];
+    }
+  }
+  return [stationName, stationCargoBuy, stationCargoSell];
 
 }
