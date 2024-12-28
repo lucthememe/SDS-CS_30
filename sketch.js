@@ -221,3 +221,7 @@ function stationInfoCheck(playerX, playerY, stationList){
   return [stationName, stationCargoBuy, stationCargoSell];
 
 }
+
+function stationDistCheck(stationlist){
+  let stationName 
+}
