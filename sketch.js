@@ -223,13 +223,17 @@ function stationInfoCheck(playerX, playerY, stationList){
 }
 
 function stationDistCheck(playerX, playerY, stationList){
-  let stationName ;
   let distArray ;
-  let tempStationX ;
-  let tempStationY ;
+  let stationXHolder ;
+  let stationYHolder ;
+  let stationNameHolder;
   for(i = 0; i < stationList; i++){
     if (!playerX === stationList[i].x && !playerY === stationList[i].y){
-      tempStationX = stationList[i].x;
+      stationXHolder = stationList[i].x;
+      stationYHolder = stationList[i].y;
+      stationNameHolder = stationList[i].name;
+      
+
     }
   }
 }
