@@ -43,8 +43,8 @@ const cargo = {
 };
 
 const stationNameComponents ={
-  prefix: ["Big", "Small", "Long", "Short", "Wide", "Narrow", "Handsome", "Bald", "Anxious", "Agreeable", "Brave", "Defiant", "Distinct", "Calm", "Charming", "Blushing", "colorful"],
-  sufix: ["forest", "art", "rock", "tree", "yard", "tundra", "garden", "desert", "range", "field", "cane", "cube", "murder", "cave", "moose", "beaver", "nerd", "dream", "express", "glade"],
+  prefix: ["Big", "Small", "Long", "Short", "Wide", "Narrow", "Handsome", "Bald", "Anxious", "Agreeable", "Brave", "Defiant", "Distinct", "Calm", "Charming", "Blushing", "colorful", "green", "astonishing", "unbound", "cold", "hot", "fiery", "frosty", "greater", "lesser", "jaded"],
+  sufix: ["forest", "art", "rock", "tree", "yard", "tundra", "garden", "desert", "range", "field", "cane", "cube", "murder", "cave", "moose", "beaver", "nerd", "dream", "express", "glade", "dragon", "frost", "taiga", "jade"],
 };
 
 const stationType ={
@@ -128,12 +128,16 @@ class CreateStation {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  genratedstations.push(new CreateStation("Test station", 500, 500, true, stationType.smelter));
-  for (let i=0;i<20;i++){
-    gernateStation();
-    console.log(stationInfoCheck(genratedstations[i].x, genratedstations[i].y, genratedstations));
-  }
-  console.log(stationDistCheck(player.x, player.y, genratedstations))
+  // genratedstations.push(new CreateStation("Test station", 500, 500, true, stationType.smelter));
+  // for (let i=0;i<20;i++){
+  //   gernateStation();
+  //   console.log(stationInfoCheck(genratedstations[i].x, genratedstations[i].y, genratedstations));
+  // }
+  //console.log(stationDistCheck(player.x, player.y, genratedstations))
+  let p = stationNameComponents.prefix
+  let s = stationNameComponents.sufix
+  console.log(p.length);
+  console.log(s.length);
 }
 
 function draw() {
