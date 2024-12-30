@@ -3,8 +3,10 @@
 // start date 26/11/2024
 
 let player = {
-  curantcoords: [500, 500],
+  x: 500,
+  y: 500,
   cargoHoldSize: 10,
+  fuelUse: 10,
   iron: 0,
   copper: 0,
   tungsten: 0,
@@ -56,7 +58,7 @@ const stationType ={
 
 let genratedstations = [];
 
-
+//this class holds info for all stations and can generate new stations 
 class CreateStation {
   constructor(name, x, y, preset, productionType){
     this.name = name;
@@ -68,16 +70,25 @@ class CreateStation {
 
   }
 
+  /**
+   * generates a new random station
+   */
   GenrateRandomStation(){
     this.CreateCargoList();
     this.CreateStationCoordinates();
     this.CreateStationName();
   }
 
+  /**
+   * uses the makeCargoList function to generate a cargo list
+   */
   CreateCargoList(){
     this.cargo = makeCargoList(this.cargo);
   }
 
+  /**
+   * generate a station name 
+   */
   CreateStationName(){
     let nameHolder;
     let newName = false;
@@ -93,6 +104,9 @@ class CreateStation {
     this.name = nameHolder;
   }
 
+  /**
+   * randomly generate station coordenates
+   */
   CreateStationCoordinates(){
     let newCoordinates = false;
     let coordinateXHolder;
@@ -111,6 +125,7 @@ class CreateStation {
     this.y = coordinateYHolder;
   }
 };
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   genratedstations.push(new CreateStation("Test station", 500, 500, true, stationType.smelter));
@@ -118,6 +133,7 @@ function setup() {
     gernateStation();
     console.log(stationInfoCheck(genratedstations[i].x, genratedstations[i].y, genratedstations));
   }
+  console.log(stationDistCheck(player.x, player.y, genratedstations))
 }
 
 function draw() {
@@ -125,6 +141,11 @@ function draw() {
   circle(mouseX, mouseY, 100);
 }
 
+/**
+ * generats a cargo list depending on station type
+ * @param {*} proType the type of station to genrated a cargo list for
+ * @returns  2 arrays of cargo that the station will buy and sell
+ */
 function makeCargoList(proType){
   let cargoArray = [];
   let tempArray = [];
@@ -178,6 +199,9 @@ function makeCargoList(proType){
   return cargoArray;
 };
 
+/**
+ * generate a random station and pushes that station to the genrated station array
+ */
 function gernateStation(){
   let stationNumber = genratedstations.length;
   let stationRand = random(6);
@@ -207,6 +231,13 @@ function gernateStation(){
 
 }
 
+/**
+ * checks the info of a given station at the players currant coordinates
+ * @param {*} playerX the currant x coordinate of the player
+ * @param {*} playerY the currant y coordinate of the player
+ * @param {*} stationList the list of genratted stations
+ * @returns returns a array containing the station name the cargo that station buys and the cargo that station sells
+ */
 function stationInfoCheck(playerX, playerY, stationList){
   let stationName ;
   let stationCargoBuy ;
@@ -222,18 +253,33 @@ function stationInfoCheck(playerX, playerY, stationList){
 
 }
 
+/**
+ *  checks the distance to all other stations and how much fuel it will cost to travel there  
+ * @param {*} playerX the currant x coordinate of the player
+ * @param {*} playerY the currant y coordinate of the player
+ * @param {*} stationList the list of genratted stations
+ * @returns a array of station names the distance to the stations and the fuel cost to travel to the stations
+ */
 function stationDistCheck(playerX, playerY, stationList){
-  let distArray ;
+  let distArray = [];
   let stationXHolder ;
   let stationYHolder ;
   let stationNameHolder;
-  for(i = 0; i < stationList; i++){
-    if (!playerX === stationList[i].x && !playerY === stationList[i].y){
+  let xDist;
+  let yDist;
+  let totalDist
+  for(i = 0; i < stationList.length; i++){
+    if (playerX != stationList[i].x && !playerY != stationList[i].y){
       stationXHolder = stationList[i].x;
       stationYHolder = stationList[i].y;
       stationNameHolder = stationList[i].name;
       
-
+      xDist = Math.abs(playerX - stationXHolder);
+      yDist = Math.abs(playerY - stationYHolder);
+      totalDist = Math.sqrt(xDist ** 2 + yDist ** 2);
+      totalDist = Math.round(totalDist);
+      distArray.push([stationNameHolder, totalDist, totalDist*player.fuelUse])
     }
   }
+  return distArray;
 }
