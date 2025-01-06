@@ -128,21 +128,18 @@ class CreateStation {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  // genratedstations.push(new CreateStation("Test station", 500, 500, true, stationType.smelter));
-  // for (let i=0;i<20;i++){
-  //   gernateStation();
-  //   console.log(stationInfoCheck(genratedstations[i].x, genratedstations[i].y, genratedstations));
-  // }
-  //console.log(stationDistCheck(player.x, player.y, genratedstations))
-  let p = stationNameComponents.prefix
-  let s = stationNameComponents.sufix
-  console.log(p.length);
-  console.log(s.length);
+  genratedstations.push(new CreateStation("Test station", 500, 500, true, stationType.smelter));
+  for (let i=0;i<20;i++){
+    gernateStation();
+    console.log(stationInfoCheck(genratedstations[i].x, genratedstations[i].y, genratedstations));
+  }
+  console.log(stationDistCheck(player.x, player.y, genratedstations));
 }
 
 function draw() {
   background(220);
-  circle(mouseX, mouseY, 100);
+  //circle(mouseX, mouseY, 100);
+  let a = stationTravelPicker(player.x, player.y, genratedstations);
 }
 
 /**
@@ -271,9 +268,9 @@ function stationDistCheck(playerX, playerY, stationList){
   let stationNameHolder;
   let xDist;
   let yDist;
-  let totalDist
+  let totalDist;
   for(i = 0; i < stationList.length; i++){
-    if (playerX != stationList[i].x && !playerY != stationList[i].y){
+    if (playerX !== stationList[i].x && !playerY !== stationList[i].y){
       stationXHolder = stationList[i].x;
       stationYHolder = stationList[i].y;
       stationNameHolder = stationList[i].name;
@@ -282,8 +279,22 @@ function stationDistCheck(playerX, playerY, stationList){
       yDist = Math.abs(playerY - stationYHolder);
       totalDist = Math.sqrt(xDist ** 2 + yDist ** 2);
       totalDist = Math.round(totalDist);
-      distArray.push([stationNameHolder, totalDist, totalDist*player.fuelUse])
+      distArray.push([stationNameHolder, "distance: " + totalDist, "fuel cost: " + totalDist*player.fuelUse]);
     }
   }
   return distArray;
+}
+
+function stationTravelPicker(playerX, playerY, stationList){
+  let distArray = stationDistCheck(playerX, playerY, stationList);
+  let stationSelect;
+  stationSelect = createSelect();
+  stationSelect.position(10, 10);
+  stationSelect.selected(distArray[0][0] + distArray[0][1] + distArray[0][2]);
+  let select = stationSelect.selected();
+  // this is broken de bug to see the select cant see the array
+  for (let i = 0; i < distArray; i++){
+    stationSelect.option(distArray[i][0] + distArray[i][1] + distArray[i][2]);
+  }
+
 }
