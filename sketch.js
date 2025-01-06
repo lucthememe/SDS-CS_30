@@ -290,11 +290,11 @@ function stationTravelPicker(playerX, playerY, stationList){
   let stationSelect;
   stationSelect = createSelect();
   stationSelect.position(10, 10);
-  stationSelect.selected(distArray[0][0] + distArray[0][1] + distArray[0][2]);
-  let select = stationSelect.selected();
-  // this is broken de bug to see the select cant see the array
-  for (let i = 0; i < distArray; i++){
-    stationSelect.option(distArray[i][0] + distArray[i][1] + distArray[i][2]);
+  stationSelect.option(distArray[0]);
+  stationSelect.selected(distArray[0]);
+  
+  for (let i = 1; i < distArray.length; i++){
+    stationSelect.option(distArray[i]);
   }
 
 }
