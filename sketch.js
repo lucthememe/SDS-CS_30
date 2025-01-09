@@ -5,6 +5,7 @@
 let player = {
   x: 500,
   y: 500,
+  location: "test station",
   cargoHoldSize: 10,
   fuelUse: 10,
   iron: 0,
@@ -25,6 +26,7 @@ let player = {
 const galaxyXMax = 1000;
 const galaxyYMax = 1000;
 const defualtCargoAmount = 200;
+let stationSelect;
 
 const cargo = {
   iron: "iron",
@@ -129,17 +131,17 @@ class CreateStation {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   genratedstations.push(new CreateStation("Test station", 500, 500, true, stationType.smelter));
-  for (let i=0;i<20;i++){
+  for (let i=0;i<5;i++){
     gernateStation();
     console.log(stationInfoCheck(genratedstations[i].x, genratedstations[i].y, genratedstations));
   }
   console.log(stationDistCheck(player.x, player.y, genratedstations));
+  stationTravelPicker(player.x, player.y, genratedstations, player.location);
 }
 
 function draw() {
   background(220);
   //circle(mouseX, mouseY, 100);
-  let a = stationTravelPicker(player.x, player.y, genratedstations);
 }
 
 /**
@@ -285,16 +287,22 @@ function stationDistCheck(playerX, playerY, stationList){
   return distArray;
 }
 
-function stationTravelPicker(playerX, playerY, stationList){
+/**
+ * creates a list of stations you can traval to 
+ * @param {*} playerX 
+ * @param {*} playerY 
+ * @param {*} stationList 
+ * @param {*} playerLocation 
+ */
+function stationTravelPicker(playerX, playerY, stationList, playerLocation){
   let distArray = stationDistCheck(playerX, playerY, stationList);
-  let stationSelect;
   stationSelect = createSelect();
   stationSelect.position(10, 10);
-  stationSelect.option(distArray[0]);
-  stationSelect.selected(distArray[0]);
+  stationSelect.option(playerLocation);
+  stationSelect.selected(playerLocation);
   
   for (let i = 1; i < distArray.length; i++){
     stationSelect.option(distArray[i]);
   }
-
 }
+
