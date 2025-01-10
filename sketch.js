@@ -137,10 +137,12 @@ function setup() {
   }
   console.log(stationDistCheck(player.x, player.y, genratedstations));
   stationTravelPicker(player.x, player.y, genratedstations, player.location);
+  
 }
 
 function draw() {
   background(220);
+  stationTravelUpdater(player.x, player.y, genratedstations, player.location, stationSelect.selected());
   //circle(mouseX, mouseY, 100);
 }
 
@@ -289,10 +291,10 @@ function stationDistCheck(playerX, playerY, stationList){
 
 /**
  * creates a list of stations you can traval to 
- * @param {*} playerX 
- * @param {*} playerY 
- * @param {*} stationList 
- * @param {*} playerLocation 
+ * @param {*} playerX the curant player x coord
+ * @param {*} playerY the curant player y coord
+ * @param {*} stationList a array of the genrated stations
+ * @param {*} playerLocation the curant player location
  */
 function stationTravelPicker(playerX, playerY, stationList, playerLocation){
   let distArray = stationDistCheck(playerX, playerY, stationList);
@@ -301,8 +303,45 @@ function stationTravelPicker(playerX, playerY, stationList, playerLocation){
   stationSelect.option(playerLocation);
   stationSelect.selected(playerLocation);
   
+  
   for (let i = 1; i < distArray.length; i++){
     stationSelect.option(distArray[i]);
   }
 }
+
+/**
+ * updates a list of stations you can traval to 
+ * @param {*} playerX the curant player x coord
+ * @param {*} playerY the curant player y coord
+ * @param {*} stationList a array of the genrated stations
+ * @param {*} playerLocation the curant player location
+ * @param {*} selectedLocation the curant selected location on the dropdown menu
+ */
+function stationTravelUpdater(playerX, playerY, stationList, playerLocation, selectedLocation){
+  
+  if (playerLocation !== selectedLocation){
+    let distArray = stationDistCheck(playerX, playerY, stationList);
+    let distStringArray = [];
+    for (let i = 0; i < distArray.length; i++){
+      distStringArray.push(distArray[i][0] + distArray[i][1] + distArray[i][2]);
+    }
+    let selectedIndex = distStringArray.indexOf(selectedLocation);
+
+    // this is broken
+
+    playerLocation = distArray[selectedIndex];
+    player.location = distArray[selectedIndex];
+
+    console.log(player.location);
+
+    stationSelect = createSelect();
+    stationSelect.position(10, 10);
+    stationSelect.option(playerLocation);
+    stationSelect.selected(playerLocation);
+    for (let i = 0; i < distArray.length; i++){
+      stationSelect.option(distArray[i]);
+    }
+  }
+}
+
 
