@@ -48,9 +48,41 @@ const cargo = {
   waste: "waste",
 };
 
+const cargoBuyDefualt = {
+  iron: 300,
+  copper: 280,
+  tungsten: 500,
+  water: 640,
+  aluminum: 221,
+  processedFood: 288,
+  quantainium: 2269,
+  constructionMaterials: 1800,
+  RMC: 9774,
+  distilledSpirits: 355,
+  agriculturalSupplies: 232,
+  compboard: 15373,
+  waste: 10,
+};
+
+const cargoSellDefualt = {
+  iron: 380,
+  copper: 355,
+  tungsten: 600,
+  water: 750,
+  aluminum: 288,
+  processedFood: 394,
+  quantainium: 2670,
+  constructionMaterials: 2300,
+  RMC: 11300,
+  distilledSpirits: 555,
+  agriculturalSupplies: 331,
+  compboard: 16910,
+  waste: 20,
+};
+
 const stationNameComponents = {
   prefix: ["Big", "Small", "Long", "Short", "Wide", "Narrow", "Handsome", "Bald", "Anxious", "Agreeable", "Brave", "Defiant", "Distinct", "Calm", "Charming", "Blushing", "Colourful", "Green", "Astonishing", "Unbound", "Cold", "Hot", "Fiery", "Frosty", "Greater", "Lesser", "Jaded"],
-  sufix: ["forest", "art", "rock", "tree", "yard", "tundra", "garden", "desert", "range", "field", "cane", "cube", "murder", "cave", "moose", "beaver", "nerd", "dream", "express", "glade", "dragon", "frost", "taiga", "jade"],
+  sufix: ["forest", "art", "rock", "tree", "yard", "tundra", "garden", "desert", "range", "field", "cane", "pool", "cube", "murder", "cave", "moose", "beaver", "nerd", "dream", "express", "glade", "dragon", "frost", "taiga", "jade"],
 };
 
 const stationType = {
@@ -158,9 +190,12 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  background(0);
   stationTravelUpdater(player.x, player.y, genratedstations, player.location, stationSelect.selected());
   //circle(mouseX, mouseY, 100);
+  if (keyIsDown(66)){
+    cargobuyer(player.location, cargoBuyDefualt, cargoSellDefualt, genratedstations);
+  }
 }
 
 function keyPressed() {
@@ -445,6 +480,18 @@ function musicBox() {
   }
 }
 
-function cargobuyer(playerLocation){
+function cargobuyer(location, defualtBuy, defualtSell, stationList){
+  let stationNumber = 0;
+  let hieghtNeeded = 0;
+
+  for (i=0;i<stationList.length;i++){
+    if (stationList[i].name === location){
+      stationNumber = i;
+      break;
+    }
+  }
+
+  hieghtNeeded = (stationList[stationNumber].cargo[0].length + stationList[stationNumber].cargo[1].length) * 20;
+  rect(width-400, 0, 400, hieghtNeeded);
 
 }
