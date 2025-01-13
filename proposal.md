@@ -4,16 +4,16 @@ a trading simulator where you go from planet to planet and buy and sell goods
 
 ## needs
 - [ ] set planets to go to
-- [ ] genrated planets to go to 
-- [ ] difrent cargos and damands for each planet
+- [/] genrated planets to go to 
+- [/] difrent cargos and damands for each planet
 - [ ] upgradeing ships / upgrades to storage size
-- [ ] cost of traval 
+- [/] cost of traval 
 - [ ] fuel size depending on ship
 - [ ] lots of difrent cargos to run inculding low cost high volume and high cost low volume
 
 ## ambeance
 - [ ] title screen
-- [ ] music 
+- [/] music 
 
 ## wants
 - [ ] illegal cargo

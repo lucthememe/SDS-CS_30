@@ -7,7 +7,10 @@ let player = {
   y: 500,
   location: "test station",
   cargoHoldSize: 10,
+  fuel: 7070,
+  FuelTankSise: 7070,
   fuelUse: 10,
+  bank: 100000,
   iron: 0,
   copper: 0,
   tungsten: 0,
@@ -26,6 +29,7 @@ let player = {
 const galaxyXMax = 1000;
 const galaxyYMax = 1000;
 const defualtCargoAmount = 200;
+const fuelPrice = 5;
 let stationSelect;
 
 const cargo = {
@@ -45,7 +49,7 @@ const cargo = {
 };
 
 const stationNameComponents ={
-  prefix: ["Big", "Small", "Long", "Short", "Wide", "Narrow", "Handsome", "Bald", "Anxious", "Agreeable", "Brave", "Defiant", "Distinct", "Calm", "Charming", "Blushing", "colorful", "green", "astonishing", "unbound", "cold", "hot", "fiery", "frosty", "greater", "lesser", "jaded"],
+  prefix: ["Big", "Small", "Long", "Short", "Wide", "Narrow", "Handsome", "Bald", "Anxious", "Agreeable", "Brave", "Defiant", "Distinct", "Calm", "Charming", "Blushing", "Colourful", "Green", "Astonishing", "Unbound", "Cold", "Hot", "Fiery", "Frosty", "Greater", "Lesser", "Jaded"],
   sufix: ["forest", "art", "rock", "tree", "yard", "tundra", "garden", "desert", "range", "field", "cane", "cube", "murder", "cave", "moose", "beaver", "nerd", "dream", "express", "glade", "dragon", "frost", "taiga", "jade"],
 };
 
@@ -60,6 +64,12 @@ const stationType ={
 
 let genratedstations = [];
 
+let music = {
+  track1: null,
+  track2: null,
+  track3: null,
+  track4: null,
+}
 //this class holds info for all stations and can generate new stations 
 class CreateStation {
   constructor(name, x, y, preset, productionType){
@@ -128,6 +138,13 @@ class CreateStation {
   }
 };
 
+function preload(){
+  music.track1 = loadSound("Creating a Better World.mp3");
+  music.track2 = loadSound("Loreville.mp3");
+  music.track3 = loadSound("Majesty Of Space.mp3");
+  music.track4 = loadSound("Mission Preparations.mp3");
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   genratedstations.push(new CreateStation("test station", 500, 500, true, stationType.smelter));
@@ -144,6 +161,10 @@ function draw() {
   background(220);
   stationTravelUpdater(player.x, player.y, genratedstations, player.location, stationSelect.selected());
   //circle(mouseX, mouseY, 100);
+}
+
+function keyPressed(){
+  musicBox();
 }
 
 /**
@@ -334,21 +355,80 @@ function stationTravelUpdater(playerX, playerY, stationList, playerLocation, sel
     player.location = distArray[selectedIndex][0];
     player.x = stationList[selectedIndex].x;
     player.y = stationList[selectedIndex].y;
+    travelFuelUpdater(player.fuelUse, naturalSplit(distArray[selectedIndex][1])[1])
     console.log(player);
     console.log(stationList);
+    console.log(naturalSplit(distArray[selectedIndex][1])[1])
 
-    stationSelect.disable();
+    stationSelect.remove();
     stationSelect = createSelect();
     stationSelect.position(10, 10);
     stationSelect.option(playerLocation);
     stationSelect.selected(playerLocation);
     distArray = stationDistCheck(player.x, player.y, stationList);
     for (let i = 0; i < distArray.length; i++){
-      if (distArray[i][0] !== playerLocation){
+      if (distArray[i][0] !== playerLocation && naturalSplit(distArray[i][2])[1] <= player.fuel){
         stationSelect.option(distArray[i]);
       }
     }
   }
 }
 
+function travelFuelUpdater(fuelUse, distanceTraveled){
+  player.fuel -= distanceTraveled * fuelUse;
+  refiller();
+}
 
+/**
+ * splits a str into a array seprating numbers and letters
+ * code by CodeManX https://stackoverflow.com/questions/3370263/separate-integers-and-text-in-a-string?rq=3
+ * @param {*} str the string you want to split
+ * @returns a array seprating numbers and letters
+ */
+function naturalSplit(str) {
+  'use strict';
+  let arr = [];
+  let split = str.split(/(\d+)/);
+  for (let i in split) {
+      let s = split[i];
+      if (s !== "") {
+          if (i % 2) {
+              arr.push(+s);
+          } else {
+              arr.push(s);
+          }
+      }
+  }
+  return arr;
+}
+
+function refiller(){
+  let doneChecker = false;
+  while (doneChecker === false){
+    if (player.fuel < player.FuelTankSise && player.bank >= fuelPrice){
+      player.bank -= fuelPrice;
+      player.fuel++;
+    }
+    else{
+      doneChecker = true;
+    }
+  }
+}
+
+function musicBox(){
+  let rand = random(4);
+  if (!music.track1.isPlaying() && !music.track2.isPlaying() && !music.track3.isPlaying() && !music.track4.isPlaying()){
+    if (rand <= 1){
+      music.track1.play();
+    }
+    else if (rand <= 2 && rand < 1){
+      music.track2.play();
+    }
+    else if (rand <= 3 && rand < 2){
+      music.track3.play();
+    }
+    else{
+      music.track4.play();
+  }
+  }
+}
