@@ -82,7 +82,7 @@ const cargoSellDefualt = {
 
 const stationNameComponents = {
   prefix: ["Big", "Small", "Long", "Short", "Wide", "Narrow", "Handsome", "Bald", "Anxious", "Agreeable", "Brave", "Defiant", "Distinct", "Calm", "Charming", "Blushing", "Colourful", "Green", "Astonishing", "Unbound", "Cold", "Hot", "Fiery", "Frosty", "Greater", "Lesser", "Jaded"],
-  sufix: ["forest", "art", "rock", "tree", "yard", "tundra", "garden", "desert", "range", "field", "cane", "pool", "cube", "murder", "cave", "moose", "beaver", "nerd", "dream", "express", "glade", "dragon", "frost", "taiga", "jade"],
+  sufix: ["forest", "art", "rock", "tree", "yard", "tundra", "garden", "desert", "range", "field", "cane", "arson", "landing", "pool", "cube", "murder", "cave", "moose", "nerd", "dream", "express", "glade", "dragon", "frost", "taiga", "jade"],
 };
 
 const stationType = {
@@ -103,7 +103,15 @@ let music = {
   track4: null,
 };
 //this class holds info for all stations and can generate new stations 
+
 class CreateStation {
+  /**
+   * @param {*} name name of the station
+   * @param {*} x the x coord of the station 
+   * @param {*} y the y coord of the station 
+   * @param {*} preset tells if the station was a preset station
+   * @param {*} productionType the production type of the station
+   */
   constructor(name, x, y, preset, productionType) {
     this.name = name;
     this.x = x;
@@ -111,6 +119,8 @@ class CreateStation {
     this.preset = preset;
     this.productionType = productionType;
     this.cargo = productionType;
+    this.colourBase = [random(255), random(255), random(255)];
+    this.colourSecond = [random(255), random(255), random(255)];
 
   }
 
@@ -168,6 +178,7 @@ class CreateStation {
     this.x = coordinateXHolder;
     this.y = coordinateYHolder;
   }
+
 };
 
 function preload() {
@@ -178,7 +189,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, windowHeight, WEBGL);
   genratedstations.push(new CreateStation("test station", 500, 500, true, stationType.smelter));
   for (let i = 0; i < 5; i++) {
     gernateStation();
@@ -193,6 +204,7 @@ function draw() {
   background(0);
   stationTravelUpdater(player.x, player.y, genratedstations, player.location, stationSelect.selected());
   //circle(mouseX, mouseY, 100);
+  stationRender(genratedstations, player.location);
   if (keyIsDown(66)){
     cargobuyer(player.location, cargoBuyDefualt, cargoSellDefualt, genratedstations);
   }
@@ -494,4 +506,29 @@ function cargobuyer(location, defualtBuy, defualtSell, stationList){
   hieghtNeeded = (stationList[stationNumber].cargo[0].length + stationList[stationNumber].cargo[1].length) * 20;
   rect(width-400, 0, 400, hieghtNeeded);
 
+}
+
+function stationRender(stationList, playerLocation){
+  let stationNumber;
+
+
+  for (i=0;i<stationList.length;i++){
+    if (stationList[i].name === playerLocation){
+      stationNumber = i;
+      break;
+    }
+  }
+
+  orbitControl();
+  //noStroke();
+  fill(stationList[stationNumber].colourBase[0], stationList[stationNumber].colourBase[1], stationList[stationNumber].colourBase[2]);
+  sphere(height/2.5, 20, 20);
+  fill(stationList[stationNumber].colourSecond[0], stationList[stationNumber].colourSecond[1], stationList[stationNumber].colourSecond[2]);
+  torus(height/2, 15, 20);
+  cylinder(15, height/1.001);
+  push();
+  translate(height/2, height/2, 0);
+  
+  pop();
+  //add details
 }
