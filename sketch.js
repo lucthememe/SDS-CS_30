@@ -31,6 +31,7 @@ const galaxyYMax = 1000;
 const defualtCargoAmount = 200;
 const fuelPrice = 5;
 let stationSelect;
+let orbit = 0;
 
 const cargo = {
   iron: "iron",
@@ -80,6 +81,10 @@ const cargoSellDefualt = {
   waste: 20,
 };
 
+let shipModels ={
+  cutty: null,
+}
+
 const stationNameComponents = {
   prefix: ["Big", "Small", "Long", "Short", "Wide", "Narrow", "Handsome", "Bald", "Anxious", "Agreeable", "Brave", "Defiant", "Distinct", "Calm", "Charming", "Blushing", "Colourful", "Green", "Astonishing", "Unbound", "Cold", "Hot", "Fiery", "Frosty", "Greater", "Lesser", "Jaded"],
   sufix: ["forest", "art", "rock", "tree", "yard", "tundra", "garden", "desert", "range", "field", "cane", "arson", "landing", "pool", "cube", "murder", "cave", "moose", "nerd", "dream", "express", "glade", "dragon", "frost", "taiga", "jade"],
@@ -121,6 +126,7 @@ class CreateStation {
     this.cargo = productionType;
     this.colourBase = [random(255), random(255), random(255)];
     this.colourSecond = [random(255), random(255), random(255)];
+
 
   }
 
@@ -186,6 +192,7 @@ function preload() {
   music.track2 = loadSound("Loreville.mp3");
   music.track3 = loadSound("Majesty Of Space.mp3");
   music.track4 = loadSound("Mission Preparations.mp3");
+  shipModels.cutty = loadModel("low_poly_cutlass_black.stl");
 }
 
 function setup() {
@@ -201,6 +208,7 @@ function setup() {
 }
 
 function draw() {
+  orbit = millis() * 0.001;
   background(0);
   stationTravelUpdater(player.x, player.y, genratedstations, player.location, stationSelect.selected());
   //circle(mouseX, mouseY, 100);
@@ -510,7 +518,7 @@ function cargobuyer(location, defualtBuy, defualtSell, stationList){
 
 function stationRender(stationList, playerLocation){
   let stationNumber;
-
+  orbit += 5;
 
   for (i=0;i<stationList.length;i++){
     if (stationList[i].name === playerLocation){
@@ -518,17 +526,19 @@ function stationRender(stationList, playerLocation){
       break;
     }
   }
-
   orbitControl();
-  //noStroke();
+  push();
+  rotateZ(orbit);
   fill(stationList[stationNumber].colourBase[0], stationList[stationNumber].colourBase[1], stationList[stationNumber].colourBase[2]);
   sphere(height/2.5, 20, 20);
   fill(stationList[stationNumber].colourSecond[0], stationList[stationNumber].colourSecond[1], stationList[stationNumber].colourSecond[2]);
-  torus(height/2, 15, 20);
-  cylinder(15, height/1.001);
+  torus(height/2, 30, 17);
+  cylinder(29, height/1.001);
+  pop();
   push();
-  translate(height/2, height/2, 0);
-  
+  rotateZ(orbit);
+  translate(0, height/2, 30);
+  model(shipModels.cutty);
   pop();
   //add details
 }

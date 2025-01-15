@@ -17,7 +17,7 @@ a trading simulator where you go from planet to planet and buy and sell goods
 
 ## wants
 - [ ] illegal cargo
-- [ ] 3d visuals 
+- [/] 3d visuals 
 - [ ] outlaw outposts
 - [ ] traval visuals
 - [ ] showing the ship orbiting the planet
