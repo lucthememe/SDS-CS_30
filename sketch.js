@@ -91,7 +91,7 @@ let shipModels ={
 
   //model by orangedudes_41 https://www.thingiverse.com/thing:6536727
   titan: null,
-}
+};
 
 const stationNameComponents = {
   prefix: ["Big", "Small", "Long", "Short", "Wide", "Narrow", "Handsome", "Bald", "Anxious", "Agreeable", "Brave", "Defiant", "Distinct", "Calm", "Charming", "Blushing", "Colourful", "Green", "Astonishing", "Unbound", "Cold", "Hot", "Fiery", "Frosty", "Greater", "Lesser", "Jaded"],
@@ -544,6 +544,7 @@ function stationRender(stationList, playerLocation){
   }
   orbitControl();
   push();
+  directionalLight(200, 200, 200, -1, -1, -1);
   rotateZ(orbit);
   fill(stationList[stationNumber].colourBase[0], stationList[stationNumber].colourBase[1], stationList[stationNumber].colourBase[2]);
   sphere(height/2.5, 20, 20);
@@ -552,12 +553,13 @@ function stationRender(stationList, playerLocation){
   cylinder(29, height/1.001);
   noStroke();
   texture(textureDepth);
-  scale(3);
+  scale(height);
   model(shipModels.titan);
   pop();
   push();
   rotateZ(orbit);
-  translate(0, height/2, 30);
-  model(shipModels.starter);
+  translate(0, height/2, 30);  
+  texture(textureDepth);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+  model(shipModels.cutty);
   pop();
 }
