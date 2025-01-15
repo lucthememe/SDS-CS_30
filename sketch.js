@@ -32,6 +32,7 @@ const defualtCargoAmount = 200;
 const fuelPrice = 5;
 let stationSelect;
 let orbit = 0;
+let textureDepth;
 
 const cargo = {
   iron: "iron",
@@ -82,7 +83,14 @@ const cargoSellDefualt = {
 };
 
 let shipModels ={
+  // model by turrboenvy https://www.thingiverse.com/thing:6507653
   cutty: null,
+
+  // model by Propellant https://www.thingiverse.com/thing:2994059
+  starter: null,
+
+  //model by orangedudes_41 https://www.thingiverse.com/thing:6536727
+  titan: null,
 }
 
 const stationNameComponents = {
@@ -102,13 +110,14 @@ const stationType = {
 let genratedstations = [];
 
 let music = {
+  // music by Pedro Macedo Camacho https://en.wikipedia.org/wiki/Pedro_Camacho
   track1: null,
   track2: null,
   track3: null,
   track4: null,
 };
-//this class holds info for all stations and can generate new stations 
 
+//this class holds info for all stations and can generate new stations 
 class CreateStation {
   /**
    * @param {*} name name of the station
@@ -187,12 +196,16 @@ class CreateStation {
 
 };
 
+
 function preload() {
   music.track1 = loadSound("Creating a Better World.mp3");
   music.track2 = loadSound("Loreville.mp3");
   music.track3 = loadSound("Majesty Of Space.mp3");
   music.track4 = loadSound("Mission Preparations.mp3");
   shipModels.cutty = loadModel("low_poly_cutlass_black.stl");
+  shipModels.starter = loadModel("hauler.stl");
+  shipModels.titan = loadModel("bile-titan.stl");
+  textureDepth = loadImage("istockphoto-1500034910-612x612.jpg");
 }
 
 function setup() {
@@ -213,9 +226,7 @@ function draw() {
   stationTravelUpdater(player.x, player.y, genratedstations, player.location, stationSelect.selected());
   //circle(mouseX, mouseY, 100);
   stationRender(genratedstations, player.location);
-  if (keyIsDown(66)){
-    cargobuyer(player.location, cargoBuyDefualt, cargoSellDefualt, genratedstations);
-  }
+  cargobuyer(player.location, cargoBuyDefualt, cargoSellDefualt, genratedstations);
 }
 
 function keyPressed() {
@@ -516,6 +527,11 @@ function cargobuyer(location, defualtBuy, defualtSell, stationList){
 
 }
 
+/**
+ * renders the 3d visuals of the station
+ * @param {*} stationList the list of stations 
+ * @param {*} playerLocation the curant player location
+ */
 function stationRender(stationList, playerLocation){
   let stationNumber;
   orbit += 5;
@@ -534,11 +550,14 @@ function stationRender(stationList, playerLocation){
   fill(stationList[stationNumber].colourSecond[0], stationList[stationNumber].colourSecond[1], stationList[stationNumber].colourSecond[2]);
   torus(height/2, 30, 17);
   cylinder(29, height/1.001);
+  noStroke();
+  texture(textureDepth);
+  scale(3);
+  model(shipModels.titan);
   pop();
   push();
   rotateZ(orbit);
   translate(0, height/2, 30);
-  model(shipModels.cutty);
+  model(shipModels.starter);
   pop();
-  //add details
 }
