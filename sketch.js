@@ -11,6 +11,7 @@ let player = {
   FuelTankSise: 7070,
   fuelUse: 10,
   bank: 100000,
+  ownedShips: ["starter"],
   iron: 0,
   copper: 0,
   tungsten: 0,
@@ -26,6 +27,11 @@ let player = {
   waste: 0,
 };
 
+let ships = {
+  strarter: [10, 7070],
+  cutty: [50, 9000],
+};
+
 const galaxyXMax = 1000;
 const galaxyYMax = 1000;
 const defualtCargoAmount = 200;
@@ -33,6 +39,7 @@ const fuelPrice = 5;
 let stationSelect;
 let orbit = 0;
 let textureDepth;
+let curentship;
 
 const cargo = {
   iron: "iron",
@@ -205,7 +212,7 @@ function preload() {
   shipModels.cutty = loadModel("low_poly_cutlass_black.stl");
   shipModels.starter = loadModel("hauler.stl");
   shipModels.titan = loadModel("bile-titan.stl");
-  textureDepth = loadImage("istockphoto-1500034910-612x612.jpg");
+  textureDepth = loadImage("low-poly-background (1).jpg");
 }
 
 function setup() {
@@ -553,13 +560,13 @@ function stationRender(stationList, playerLocation){
   cylinder(29, height/1.001);
   noStroke();
   texture(textureDepth);
-  scale(height);
+  scale(2);
   model(shipModels.titan);
   pop();
   push();
+  noStroke();
   rotateZ(orbit);
-  translate(0, height/2, 30);  
-  texture(textureDepth);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-  model(shipModels.cutty);
+  translate(0, height/2, 30);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  model(shipModels.starter);
   pop();
 }
