@@ -11,7 +11,7 @@ let player = {
   FuelTankSise: 7070,
   fuelUse: 10,
   bank: 100000,
-  ownedShips: ["starter"],
+  ship: "starter",
   iron: 0,
   copper: 0,
   tungsten: 0,
@@ -27,16 +27,14 @@ let player = {
   waste: 0,
 };
 
-let ships = {
-  strarter: [10, 7070],
-  cutty: [50, 9000],
-};
+let ships = [["starter", 10, 7070], ["cutty", 50, 9000]];
 
 const galaxyXMax = 1000;
 const galaxyYMax = 1000;
 const defualtCargoAmount = 200;
 const fuelPrice = 5;
 let stationSelect;
+let shipSelect;
 let orbit = 0;
 let textureDepth;
 let bGIMG;
@@ -226,16 +224,15 @@ function setup() {
   }
   console.log(genratedstations);
   stationTravelPicker(player.x, player.y, genratedstations, player.location);
-
+  //shipPicker(player.ship, ships);
 }
 
 function draw() {
   orbit = millis() * 0.001;
   panorama(bGIMG);
   stationTravelUpdater(player.x, player.y, genratedstations, player.location, stationSelect.selected());
-  //circle(mouseX, mouseY, 100);
   stationRender(genratedstations, player.location);
-  cargobuyer(player.location, cargoBuyDefualt, cargoSellDefualt, genratedstations);
+  //cargobuyer(player.location, cargoBuyDefualt, cargoSellDefualt, genratedstations);
 }
 
 function keyPressed() {
@@ -571,4 +568,29 @@ function stationRender(stationList, playerLocation){
   translate(0, height/2, 30);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
   model(shipModels.starter);
   pop();
+}
+
+function shipPicker(currantShip, shipArray){
+  shipSelect = createSelect();
+  shipSelect.position(400, 10);
+  shipSelect.option(currantShip);
+  shipSelect.selected(curentship);
+
+  for (let i = 0; i < shipArray.length; i++) {
+    if (shipArray[i][0] !== curentship) {
+      shipSelect.option(shipArray[i][0]);
+    }
+  }
+
+  let selectedIndex;
+  let checker;
+  for (let i = 0; i < shipArray.length; i++){
+    checker = shipArray[i].indexOf(shipSelect.selected());
+    if (!checker === -1){
+      selectedIndex = checker;
+    }
+  }
+  player.curentship = shipSelect.selected();
+  player.cargoHoldSize = shipArray[selectedIndex][1];
+  player.FuelTankSise = shipArray[selectedIndex][2];
 }
