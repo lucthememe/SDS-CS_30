@@ -39,6 +39,7 @@ const fuelPrice = 5;
 let stationSelect;
 let orbit = 0;
 let textureDepth;
+let bGIMG;
 let curentship;
 
 const cargo = {
@@ -213,6 +214,7 @@ function preload() {
   shipModels.starter = loadModel("hauler.stl");
   shipModels.titan = loadModel("bile-titan.stl");
   textureDepth = loadImage("low-poly-background (1).jpg");
+  bGIMG = loadImage("updated-skybox-in-evocati-3-24-2-repost-fixed-captions-v0-wb8djgpcagrd1.webp");
 }
 
 function setup() {
@@ -229,7 +231,7 @@ function setup() {
 
 function draw() {
   orbit = millis() * 0.001;
-  background(0);
+  panorama(bGIMG);
   stationTravelUpdater(player.x, player.y, genratedstations, player.location, stationSelect.selected());
   //circle(mouseX, mouseY, 100);
   stationRender(genratedstations, player.location);
